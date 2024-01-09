@@ -7,18 +7,64 @@
 <body>
 <h1>Thank you for your order!</h1>
 <?php
-var_dump($_POST);
-echo "</pre";
+
+    //Turn on error reporting
+    ini_set('display_errors');
+    error_reporting(E_ALL);
+
+    //Define constants
+    define("PRICE_PER_SCOOP", 2.50);
+    define('SALE_TAX_RATE', 0.11);
+
+   //For testing purposes only
+        /*
+        echo "<pre>";
+        var_dump($_POST);
+        echo "</pre>";
+        */
+
+    //Get data from POST array
+    if (!empty($_POST['scoops'])){
+        $scoops = $_POST['scoops'];
+    }
+    else {
+        echo "<p>Enter scoops!</p>";
+        return;
+    }
+
+    if (isset($_POST['flavor'])){
+        $flavors = $_POST['flavor'];
+        $flavorString = implode(", ", $flavors);
+    }
+    else {
+        echo "<p>Please select at least one flavor</p>";
+        return;
+    }
+
+    if (isset($_POST['cone'])){
+        $cone = $_POST['cone'];
+    }
+    else {
+        echo "<p>Please select a cone</p>";
+        return;
+    }
+
+    //Calculate total due
+    $subtotal = PRICE_PER_SCOOP * $scoops;
+    $tax = $subtotal * SALE_TAX_RATE;
+    $total = $subtotal + $tax;
+
+    //Print a summary
+    echo "<p>$scoops scoops</p>";
+    echo "<p>Flavors: $flavorString</p>";
+    echo "<p>Cone: $cone</p>";
+    echo "<p>Subtotal: $$subtotal</p>";
+    echo "<p>Tax: $tax</p>";
+    echo "<p>Total: $$total</p>";
 
 
-//get data form POST array
-$scoops = $_POST('scoops');
-$flavors = $_POST('flavors');
-$flavorsString = implode(", ", $flavors);
 
-//print a summary
-    echo "<p>$scoops Scoops</p>";
-    echo "<p>Flavors: $flavorsString</p>"
+
 
 ?>
 </body>
